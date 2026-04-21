@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUXE EVENTS</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Floating orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo" onclick="showPage('home')">LUXE<span>Events</span></div>
+  <div class="nav-links">
+    <a class="nav-link active" onclick="showPage('home')">Discover</a>
+    <a class="nav-link" onclick="showPage('dashboard')">My Tickets</a>
+    <a class="nav-link" onclick="showPage('admin')">Admin</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn btn-ghost btn-sm" onclick="showLoginModal()">Sign In</button>
+    <button class="btn btn-gold btn-sm" onclick="showPage('home')">Get Tickets</button>
+  </div>
+</nav>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section id="hero-section" style="min-height:100vh;padding-top:0">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content fade-in">
+      <div class="hero-eyebrow">Premium Experience Platform</div>
+      <h1 class="hero-title">Where <em>Moments</em><br>Become Legacy</h1>
+      <p class="hero-subtitle">Curated experiences. Seamless access. Unforgettable memories. Your gateway to the world's most exclusive events.</p>
+      <div class="hero-cta-group">
+        <button class="btn btn-gold" onclick="scrollToEvents()" style="padding:16px 40px;font-size:15px">Explore Events</button>
+        <button class="btn btn-ghost" onclick="showPage('dashboard')" style="padding:16px 32px;font-size:15px">My Tickets</button>
+      </div>
+      <div class="hero-stats fade-in fade-in-delay-2">
+        <div>
+          <div class="hero-stat-num">2,400+</div>
+          <div class="hero-stat-label">Events Hosted</div>
+        </div>
+        <div style="width:1px;background:var(--border-subtle);height:40px"></div>
+        <div>
+          <div class="hero-stat-num">180K</div>
+          <div class="hero-stat-label">Happy Guests</div>
+        </div>
+        <div style="width:1px;background:var(--border-subtle);height:40px"></div>
+        <div>
+          <div class="hero-stat-num">47</div>
+          <div class="hero-stat-label">Countries</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll" onclick="scrollToEvents()">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <div class="categories-row" id="events-anchor">
+    <div class="cat-chip active" onclick="filterCategory('all',this)">All Events</div>
+    <div class="cat-chip" onclick="filterCategory('concerts',this)">🎵 Concerts</div>
+    <div class="cat-chip" onclick="filterCategory('tech',this)">💻 Tech</div>
+    <div class="cat-chip" onclick="filterCategory('fashion',this)">👗 Fashion</div>
+    <div class="cat-chip" onclick="filterCategory('sports',this)">⚽ Sports</div>
+    <div class="cat-chip" onclick="filterCategory('galas',this)">✨ Galas</div>
+    <div class="cat-chip" onclick="filterCategory('art',this)">🎨 Art & Culture</div>
+  </div>
+
+  <!-- EVENTS SECTION -->
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">Featured <em>Events</em></h2>
+      <span class="section-link">View All →</span>
+    </div>
+    <div class="events-grid" id="eventsGrid"></div>
+  </section>
+
+  <!-- FEATURED CTAS -->
+  <section class="section" style="padding-top:0">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="glass" style="padding:40px;border-radius:var(--r-xl);position:relative;overflow:hidden">
+        <div style="position:absolute;top:-20px;right:-20px;font-size:120px;opacity:0.06">🎭</div>
+        <div class="badge badge-gold" style="margin-bottom:16px">New Experience</div>
+        <h3 style="font-family:var(--ff-serif);font-size:28px;font-weight:300;margin-bottom:12px">Host Your<br><em style="color:var(--gold)">Own Event</em></h3>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px">Join thousands of creators monetizing their passion through our premium platform.</p>
+        <button class="btn btn-ghost btn-sm" onclick="showPage('admin')">Become an Organizer →</button>
+      </div>
+      <div class="glass" style="padding:40px;border-radius:var(--r-xl);position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(123,94,167,0.06))">
+        <div style="position:absolute;top:-20px;right:-20px;font-size:120px;opacity:0.06">💬</div>
+        <div class="badge badge-purple" style="margin-bottom:16px">24/7 Support</div>
+        <h3 style="font-family:var(--ff-serif);font-size:28px;font-weight:300;margin-bottom:12px">Need <em style="color:#B08DE8">Help?</em><br>We're Here</h3>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:24px">Our concierge team is always available on WhatsApp for instant support.</p>
+        <a class="btn btn-wa btn-sm" href="https://wa.me/254741401230?text=Hi%2C%20I%20need%20help%20with%20LUXE%20Events" target="_blank">💬 Chat on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================== EVENT DETAIL PAGE ==================== -->
+<div id="page-event" class="page">
+  <div class="event-banner">
+    <div id="eventBannerImg" style="width:100%;height:100%;background:linear-gradient(135deg,#1a0a2e,#0d1a2e,#1a1209)"></div>
+    <div class="event-banner-overlay"></div>
+  </div>
+  <div class="event-detail-content">
+    <div style="margin-top:-60px;position:relative;z-index:10;display:flex;gap:12px;flex-wrap:wrap" id="eventBadges"></div>
+    <div class="event-detail-grid">
+      <div>
+        <h1 class="event-detail-title" id="eventDetailTitle"></h1>
+        <div class="event-meta-row" id="eventMetaRow"></div>
+        <div class="divider-gold divider"></div>
+        <p class="event-desc" id="eventDetailDesc"></p>
+        <div style="margin-top:32px">
+          <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:16px">About the Venue</h3>
+          <div class="glass-sm" style="padding:20px;display:flex;align-items:flex-start;gap:16px">
+            <div class="event-meta-icon">📍</div>
+            <div id="eventVenueInfo"></div>
+          </div>
+        </div>
+        <div style="margin-top:28px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <h3 style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted)">Dynamic Pricing</h3>
+            <span class="badge badge-teal">Fair &amp; Transparent</span>
+          </div>
+          <div class="glass-sm" style="padding:16px">
+            <div class="flex gap-sm center" style="margin-bottom:12px">
+              <span style="font-size:13px;color:var(--text-muted)">Your country:</span>
+              <select class="country-select" style="flex:1;max-width:200px" onchange="updatePricing(this.value)" id="countrySelector">
+                <option value="KE">🇰🇪 Kenya</option>
+                <option value="NG">🇳🇬 Nigeria</option>
+                <option value="ZA">🇿🇦 South Africa</option>
+                <option value="GH">🇬🇭 Ghana</option>
+                <option value="US">🇺🇸 United States</option>
+                <option value="GB">🇬🇧 United Kingdom</option>
+                <option value="DE">🇩🇪 Germany</option>
+                <option value="IN">🇮🇳 India</option>
+              </select>
+            </div>
+            <p style="font-size:12px;color:var(--text-muted)">Prices are adjusted fairly based on regional economic context. <span style="color:var(--gold)">Platform fee: 5%</span> · Transparent breakdown at checkout.</p>
+          </div>
+        </div>
+        <div style="margin-top:28px">
+          <a class="btn btn-wa" style="text-decoration:none;display:inline-flex" id="eventWaBtn" href="#" target="_blank">💬 Contact Organizer on WhatsApp</a>
+        </div>
+      </div>
+      <div class="tickets-sidebar" id="ticketTiers"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHECKOUT PAGE ==================== -->
+<div id="page-checkout" class="page">
+  <div class="checkout-container">
+    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:14px" onclick="showPage('event')">← Back to Event</div>
+    <h1 style="font-family:var(--ff-serif);font-size:36px;font-weight:300;margin-bottom:32px">Secure <em style="color:var(--gold);font-style:italic">Checkout</em></h1>
+    
+    <div class="checkout-steps">
+      <div class="step-item">
+        <div class="step-circle active" id="step1circle">1</div>
+        <div class="step-label active" id="step1label">Details</div>
+      </div>
+      <div style="flex:1;height:1px;background:var(--border-subtle);margin-top:-24px;z-index:0"></div>
+      <div class="step-item">
+        <div class="step-circle" id="step2circle">2</div>
+        <div class="step-label" id="step2label">Payment</div>
+      </div>
+      <div style="flex:1;height:1px;background:var(--border-subtle);margin-top:-24px;z-index:0"></div>
+      <div class="step-item">
+        <div class="step-circle" id="step3circle">3</div>
+        <div class="step-label" id="step3label">Confirmation</div>
+      </div>
+    </div>
+
+    <!-- Step 1: Details -->
+    <div id="checkoutStep1">
+      <div class="checkout-grid">
+        <div class="checkout-form">
+          <h2 style="font-family:var(--ff-serif);font-size:22px;font-weight:400;margin-bottom:4px">Your Details</h2>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px">We'll send your tickets to this email.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input class="form-input" id="firstName" placeholder="Amara" type="text">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input class="form-input" id="lastName" placeholder="Osei" type="text">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input class="form-input" id="emailInput" placeholder="amara@example.com" type="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input" id="phoneInput" placeholder="+254 7XX XXX XXX" type="tel">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Country</label>
+            <select class="form-input country-select" id="checkoutCountry" onchange="updateCheckoutPricing(this.value)">
+              <option value="KE">🇰🇪 Kenya</option>
+              <option value="NG">🇳🇬 Nigeria</option>
+              <option value="ZA">🇿🇦 South Africa</option>
+              <option value="GH">🇬🇭 Ghana</option>
+              <option value="US">🇺🇸 United States</option>
+              <option value="GB">🇬🇧 United Kingdom</option>
+              <option value="DE">🇩🇪 Germany</option>
+              <option value="IN">🇮🇳 India</option>
+            </select>
+          </div>
+          <button class="btn btn-gold w-full" style="margin-top:8px" onclick="goToStep(2)">Continue to Payment →</button>
+        </div>
+        <div class="order-summary" id="orderSummaryStep1"></div>
+      </div>
+    </div>
+
+    <!-- Step 2: Payment -->
+    <div id="checkoutStep2" class="hide">
+      <div class="checkout-grid">
+        <div>
+          <h2 style="font-family:var(--ff-serif);font-size:22px;font-weight:400;margin-bottom:16px">M-Pesa Payment</h2>
+          <div class="mpesa-container" id="mpesaForm">
+            <div class="mpesa-logo">
+              <div class="mpesa-logo-icon">M</div>
+              <div>
+                <div class="mpesa-logo-text">M-Pesa</div>
+                <div class="mpesa-logo-sub" style="font-size:11px;color:var(--text-muted)">Secure Mobile Payment</div>
+              </div>
+            </div>
+            <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">Enter your Safaricom number. You'll receive an STK push prompt to complete payment.</p>
+            <div class="form-group" style="margin-bottom:12px">
+              <label class="form-label">M-Pesa Phone Number</label>
+              <div class="phone-input-wrapper">
+                <span class="phone-prefix">+254</span>
+                <input class="form-input phone-input-field" id="mpesaPhone" placeholder="741 401 230" type="tel" style="width:100%">
+              </div>
+            </div>
+            <div class="glass-sm" style="padding:12px;margin-bottom:16px;font-size:12px;color:var(--text-muted)">
+              <strong style="color:var(--text-primary);display:block;margin-bottom:4px">How it works:</strong>
+              1. Enter your M-Pesa number<br>
+              2. Tap "Send STK Push"<br>
+              3. A prompt will appear on your phone<br>
+              4. Enter your M-Pesa PIN to confirm
+            </div>
+            <button class="btn btn-gold w-full" onclick="initiateMpesa()">📱 Send STK Push</button>
+          </div>
+          <div id="mpesaProcessing" class="hide">
+            <div class="mpesa-status">
+              <div class="mpesa-spinner"></div>
+              <div class="mpesa-status-title">Processing Payment</div>
+              <div class="mpesa-status-sub">Check your phone for the M-Pesa prompt. Enter your PIN to confirm.</div>
+              <div style="width:100%;max-width:280px">
+                <div class="progress-bar"><div class="progress-fill" id="mpesaProgress" style="width:0%"></div></div>
+              </div>
+            </div>
+          </div>
+          <div id="mpesaSuccess" class="hide">
+            <div class="mpesa-status">
+              <div class="mpesa-success-icon">✅</div>
+              <div class="mpesa-status-title">Payment Confirmed!</div>
+              <div class="mpesa-status-sub" id="mpesaSuccessRef"></div>
+              <button class="btn btn-gold" onclick="goToStep(3)" style="margin-top:8px">View Your Tickets →</button>
+            </div>
+          </div>
+        </div>
+        <div class="order-summary" id="orderSummaryStep2"></div>
+      </div>
+    </div>
+
+    <!-- Step 3: Confirmation / Ticket -->
+    <div id="checkoutStep3" class="hide">
+      <div style="text-align:center;margin-bottom:40px">
+        <div style="font-size:56px;margin-bottom:16px">🎉</div>
+        <h2 style="font-family:var(--ff-serif);font-size:36px;font-weight:300;margin-bottom:8px">You're <em style="color:var(--gold);font-style:italic">In!</em></h2>
+        <p style="font-size:15px;color:var(--text-muted)">Your ticket has been confirmed. See you there.</p>
+      </div>
+      <div id="ticketDisplay"></div>
+      <div style="display:flex;gap:16px;justify-content:center;margin-top:32px;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="showPage('dashboard')">View in Dashboard</button>
+        <button class="btn btn-ghost" onclick="showPage('home')">Browse More Events</button>
+        <a class="btn btn-wa" id="confirmWaBtn" href="#" target="_blank">💬 Share on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DASHBOARD PAGE ==================== -->
+<div id="page-dashboard" class="page">
+  <div class="dashboard-layout">
+    <aside class="dashboard-sidebar">
+      <div style="margin-bottom:32px">
+        <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:#1A1209;margin-bottom:12px">A</div>
+        <div style="font-weight:500">Amara Osei</div>
+        <div style="font-size:12px;color:var(--text-muted)">amara@example.com</div>
+      </div>
+      <div class="dash-nav-item active" onclick="switchDashTab('tickets',this)">
+        <span class="dash-nav-icon">🎟️</span>My Tickets
+      </div>
+      <div class="dash-nav-item" onclick="switchDashTab('transactions',this)">
+        <span class="dash-nav-icon">💳</span>Transactions
+      </div>
+      <div class="dash-nav-item" onclick="switchDashTab('profile',this)">
+        <span class="dash-nav-icon">👤</span>Profile Settings
+      </div>
+      <div class="divider" style="margin:16px 0"></div>
+      <div class="dash-nav-item" onclick="showPage('home')">
+        <span class="dash-nav-icon">🏠</span>Back to Home
+      </div>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dashboard-greeting">Welcome back, <em>Amara</em></div>
+      <div class="dashboard-sub">Manage your tickets and experiences</div>
+      <div class="dash-stats-grid">
+        <div class="dash-stat">
+          <div class="dash-stat-label">Tickets Owned</div>
+          <div class="dash-stat-value" id="dashTicketCount">0</div>
+          <div class="dash-stat-sub">Across all events</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-label">Total Spent</div>
+          <div class="dash-stat-value gold" id="dashTotalSpent">KSh 0</div>
+          <div class="dash-stat-sub">Lifetime value</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-label">Upcoming</div>
+          <div class="dash-stat-value" id="dashUpcoming">0</div>
+          <div class="dash-stat-sub">Events this month</div>
+        </div>
+      </div>
+      <div id="dashContent"></div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== ADMIN PAGE ==================== -->
+<div id="page-admin" class="page">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div style="font-family:var(--ff-serif);font-size:20px;color:var(--gold);margin-bottom:24px;padding:0 12px">Admin Panel</div>
+      <div class="admin-nav-item active" onclick="switchAdminTab('overview',this)">📊 Overview</div>
+      <div class="admin-nav-item" onclick="switchAdminTab('events',this)">🎭 Events</div>
+      <div class="admin-nav-item" onclick="switchAdminTab('transactions',this)">💳 Transactions</div>
+      <div class="admin-nav-item" onclick="switchAdminTab('create',this)">➕ Create Event</div>
+      <div class="divider" style="margin:12px 0"></div>
+      <div class="admin-nav-item" onclick="showPage('home')">🏠 Back to Home</div>
+    </aside>
+    <main class="admin-main">
+      <div id="adminContent"></div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== LOGIN MODAL ==================== -->
+<div class="modal-overlay hide" id="loginModal">
+  <div class="modal-box">
+    <div class="modal-close" onclick="hideModal('loginModal')">✕</div>
+    <div style="text-align:center;margin-bottom:8px;font-size:32px">✨</div>
+    <h2 class="modal-title" style="text-align:center">Welcome Back</h2>
+    <p class="modal-sub" style="text-align:center">Sign in to access your tickets and more</p>
+    <div class="checkout-form">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" placeholder="your@email.com" type="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" placeholder="••••••••" type="password">
+      </div>
+      <button class="btn btn-gold w-full" onclick="handleLogin()">Sign In</button>
+      <div style="text-align:center;font-size:13px;color:var(--text-muted)">No account? <span style="color:var(--gold);cursor:pointer">Create one free →</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" href="https://wa.me/254741401230?text=Hi%2C%20I%20need%20help%20with%20LUXE%20Events" target="_blank" title="Get Help on WhatsApp">💬</a>
+
+<script src="index.js"></script>
+</body>
+</html>
